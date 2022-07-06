@@ -41,7 +41,7 @@
 // =============== your solutions will go here ===============
 
 const solution = (healthCareWorker = {}, basePremium) => {
-  let premium = 0;
+  let premium;
   const employees = [
     {
       profession: "doctor",
@@ -80,6 +80,7 @@ const solution = (healthCareWorker = {}, basePremium) => {
         throw new Error("premium can not exceed 500");
       }
     }
+    // for therapists and psychologists
   } else {
     premium = basePremium;
   }
