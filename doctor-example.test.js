@@ -1,6 +1,6 @@
 // #todo
 
-'use strict';
+"use strict";
 
 /* 0. Starter Code
 
@@ -30,7 +30,6 @@
 }
 */
 
-
 /**
  * Calculate the premium for healthcareworkers
  *
@@ -41,21 +40,83 @@
 
 // =============== your solutions will go here ===============
 
+const solution = (healthCareWorker = {}, basePremium) => {
+  let premium = 0;
+  const employees = [
+    {
+      profession: "doctor",
+      experience: [10, 20, 30],
+    },
+    {
+      profession: "nurse",
+      experience: [10, 15, 20, 30],
+    },
+  ];
+
+  if (healthCareWorker.profession === "doctor") {
+    // check years of experience and calculate premium
+    if (healthCareWorker.experience < 10) {
+      premium = basePremium * 1.5;
+    } else if (healthCareWorker.experience < 20) {
+      premium = basePremium * 2;
+    } else {
+      premium = basePremium * 3;
+    }
+    ///difference between the nested if/if not ?? line 66,79
+    if (premium > 1000) {
+      throw new Error("premium can not exceed 1000");
+    }
+  } else if (healthCareWorker.profession === "nurse") {
+    //check years of experience and calculate premium
+    if (healthCareWorker.experience >= 20) {
+      premium = basePremium * 1.7;
+    } else if (healthCareWorker.experience >= 15) {
+      premium = basePremium * 1.5;
+    } else if (healthCareWorker.experience >= 10) {
+      premium = basePremium * 1.3;
+    } else if (healthCareWorker.experience < 10) {
+      premium = basePremium * 1.2;
+      if (premium > 500) {
+        throw new Error("premium can not exceed 500");
+      }
+    }
+  } else {
+    premium = basePremium;
+  }
+  return premium;
+};
 
 // =============== a for-of loop to control which solution(s) are tested ===============
 
-for (const solution of [calculatePremium]) {
-  // =============== test cases for this challenge ===============
+// =============== test cases for this challenge ===============
 
-  describe(solution.name + ': _', () => {
-    describe('When the premium is 200', () => {
-        it('Should multiply by x1,2 when she has less than 10 year experience',
-            () => {
-                expect((solution({profession: 'nurse', experience: 8}, 200))).toBe(240)
-        });
-    })
+describe(solution.name + ': _', () => {
+  describe("When the premium is 100", () => {
+    it("Should multiply by x 1.5 when s/he has less than 10 year experience",() => {
+      expect((solution({ profession: "doctor", experience: 8}, 100))).toBe(150)
+    });
+    it("Should multiply by x2 when s/he has greater or equal to 10 year experience", () => {
+      expect((solution({ profession: "doctor", experience: 11}, 100))).toBe(200)
+    });
+    it("Should multiply by x3 when s/he has greater or equal to 20 year experience", () => {
+      expect(solution({ profession: "doctor", experience: 21 }, 100)).toBe(300)
+    });
   });
-}
+  describe("When the premium is 300", () => {
+    it("Should multiply by x1.2 when s/he has less than 10 year experience", () => {
+      expect((solution({ profession: "nurse", experience: 5 }, 300))).toBe(360)
+    });
+    it("Should multiply by x1.3 when s/he has greater or equal to 10 year experience", () => {
+      expect((solution({ profession: "nurse", experience: 13 }, 300))).toBe(390)
+    });
+    it("Should multiply by x1.5 when s/he has greater or equal to 15 year experience", ()=> {
+      expect((solution({ profession: "nurse", experience: 17 }, 300))).toBe(450)
+    });
+    it("Should multiply by x1.7 when s/he has greater or equal to 20 year experience", () => {
+      expect((solution({ profession: "nurse", experience: 31 }, 300))).toBe(510)
+    });
+  });
+});
 
 // =============== a minified solution you can use to test your test cases ===============
 
